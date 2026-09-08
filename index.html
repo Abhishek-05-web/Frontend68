@@ -4,9 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherGPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- -----------Header-------------- -->
+    <header>
+        <div class="Header">
+            <!-- 1.Brand-Box -->
+            <span class="brand-box">
+                <h3>W</h3>
+            </span>
+            <!-- 2.Box2 -->
+            <span class="box2">
+                <span><h3>WeatherGPT</h3></span>
+                <span><p>Weather Intelligence</p></span>
+            </span>
+            <!-- Current-Locatio -->
+             <div class="location">
+                <span id="icon"><i class="fa-solid fa-location-crosshairs" style="color: rgb(11, 11, 11);"></i></span>
+                <span class="location-adderess">
+                    <p><small>Current Location</small></p>
+                    <h3>Sindri, Jharkhand</h3>
+                </span>
+             </div>
+            <!-- 4. Search-Box -->
+            <div class="search-box search-border">
+                <div id="icon"><i class="fa-solid fa-magnifying-glass" style="color: rgb(13, 12, 12);"></i></div>
+                <input placeholder="Search for City, State" id="search-bar">
+                <button class="search-button" type="submit">Search</button>
+            </div>
+            <!-- 5. Box5 -->
+            <span class="mode">
+                <i class="fa-solid fa-circle-half-stroke" style="color: black;"></i>
+            </span>
+        </div>
+    </header>
     
 </body>
 <script src="script.js"></script>
