@@ -41,25 +41,68 @@
         </div>
     </header>
     <main>
-        <div class="main">
-            <div class="Content">
-                <div class="display box"></div>
-                <div class="alert box"></div>
-                <!-- Four Horizontal box -->
+        <div class="Content">
+            <div class="weather-card box">
+                <div class="weather-card-left">
+                    <p class="date">Tuesday · 8 SEPTEMBER</p>
+                    <span class="main-temp">
+                        <p class="condition">Partly cloudy</p>
+                        <span class="main-temp-val">29</span>
+                    </span>
+                    <div class="current-location">
+                        <span class="mini-icon"><i class="fa-solid fa-location-crosshairs" style="color: rgb(11, 11, 11);"></i></span>
+                        <div class="location-text">
+                            <h3 class="location-line1">Sindri</h3>
+                            <p class="location-line2">Dhanbad, Jharkhand</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-visual">
+                    <img id="weather-icon" src="icon/partly-cloudy-day.svg" alt="Weather">
+                </div>
             </div>
-            <div class="four-box">
-                <div class="Box1 Box"></div>
-                <div class="Box2 Box"></div>
-                <div class="Box3 Box"></div>
-                <div class="Box4 Box"></div>
+            <div class="alert box"></div>
+            <!-- Four Horizontal box -->
+        </div>
+        <div class="four-box">
+            <div class="Box1 Box">
+                <div class="four-icon"><i style="transform: rotate(270deg);" class="fa-solid fa-circle-half-stroke" style="color: rgb(61, 169, 236);"></i></div>
+                <div class="weather-result">
+                    <p class="four-text">Humadity:Comfortable</p>
+                    <p class="data">68%</p>
+                </div>
             </div>
-            <!-- AI-Chatbot -->
-            <div class="AI-Section">
-                <div class="AI-text-part box"></div>
-                <div class="AI-chat box"></div>
+            <div class="Box2 Box">
+                <div class="four-icon"><i class="fa-solid fa-wind" style="color: pink;"></i></div>
+                <div class="weather-result">
+                    <p class="four-text">Wind:ENE Freeze</p>
+                    <p class="data">12km/h</p>
+                </div>
+            </div>
+            <div class="Box3 Box">
+                <div class="four-icon"><i class="fa-solid fa-cloud-bolt" style="color: rgb(17, 63, 94);"></i></div>
+                <div class="weather-result">
+                    <p class="four-text">Rain Chance:Afternoon</p>
+                    <p class="data">38%</p>
+                </div>
+            </div>
+            <div class="Box4 Box">
+                <div class="four-icon"><i class="fa-solid fa-sun" style="color: rgb(237, 176, 71);"></i></div>
+                <div class="weather-result">
+                    <p class="four-text">UV Index:High</p>
+                    <p class="data">6</p>
+                </div>
             </div>
         </div>
-    </main>
+        <!-- AI-Chatbot -->
+        <div class="AI-Section">
+            <div class="AI-text-part box"></div>
+            <div class="AI-chat box"></div>
+        </div>
+    <!-- Footer -->
+    <footer>
+
+    </footer>
 </body>
 <script src="script.js"></script>
 </html>
