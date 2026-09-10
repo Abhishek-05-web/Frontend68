@@ -59,5 +59,74 @@ searchButton.addEventListener("click",async(even) => {
         console.error(error);
         alert("Unable to fetch location");
     }
-    
 });
+// --------------------------------------------------------------------------------
+// ----------------------------Theme-Mod-Change-----------------------------------
+// ---------------------------------------------------------------------------------
+
+const modeButton=document.querySelector(".mode");
+const modeIcon=document.querySelector(".mode i");
+
+modeButton.addEventListener("click",() =>{
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")){
+        modeIcon.className="fa-solid fa-sun";
+        modeIcon.style.color="white";
+
+        localStorage.setItem("theme","dark");
+    }else{
+        modeIcon.className="fa-solid fa-circle-half-stroke";
+        modeIcon.style.color="black";
+
+        localStorage.setItem("theme","light");
+    }
+});
+//Refresh k bad bhi selected mode rahega
+if(localStorage.getItem("theme") ==="dark"){
+    document.boby.classList.add("dark-mode");
+
+    modeIcon.className="fa-solid fa-sun";
+    modeIcon.style.color="white";
+}
+// =================================Night image change====================
+const weatherIcon=document.getElementById("weather-icon");
+
+function updateWeatherIcon(){
+    const hour=new Date().getHours();
+
+    if(hour>=6&&hour<18){
+        weatherIcon.src="Icon/partly-cloudy-day.png";
+    }else{
+        weatherIcon.src="Icon/partly-cloudy-night.jpeg";
+    }
+}
+updateWeatherIcon();
+setInterval(updateWeatherIcon,60000);
+// =======================================
+// ============Risk-bar===================
+// =======================================
+
+function updateRiskBars(rain, wind, temperature){
+    //Rain: already 0-100%
+    const rainPercent=Math.min(rain,100);
+    //Wind: 60km/h=full bar
+    const windPercent=Math.min((wind/60)*100,100);
+    //Temperature:20 C -> 0%, 45C-> 100%
+    const heatPercent=Math.min(Math.max(((temperature-20)/25)*100,0),100);
+
+    document.querySelector(".rain-bar").style.width=rainPercent+"%";
+    document.querySelector(".wind-bar").style.width=windPercent+"%";
+    document.querySelector(".heat-bar").style.width=heatPercent+"%";
+
+    document.querySelector(".rain-level").textContent=
+        rain<30 ? "Low":
+        rain<70 ? "Moderate":"High";
+    document.querySelector(".wind-level").textContent=
+        wind<20 ? "Low":
+        wind<40 ? "Moderate":"High";
+    document.querySelector(".heat-level").textContent=
+        temperature<30 ? "Low":
+        temperature<38 ? "Moderate":"High";
+}
+//Abhi testing
+updateRiskBars(65,12,24);

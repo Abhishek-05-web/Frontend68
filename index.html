@@ -47,10 +47,10 @@
                     <p class="date">Tuesday · 8 SEPTEMBER</p>
                     <span class="main-temp">
                         <p class="condition">Partly cloudy</p>
-                        <span class="main-temp-val">29</span>
+                        <span class="main-temp-val">29<sup><small style="font-size: 50%;">°C</small></sup></span>
                     </span>
                     <div class="current-location">
-                        <span class="mini-icon"><i class="fa-solid fa-location-crosshairs" style="color: rgb(11, 11, 11);"></i></span>
+                        <span class="mini-icon"><i class="fa-solid fa-location-crosshairs" style="color: rgb(180, 60, 60);"></i></span>
                         <div class="location-text">
                             <h3 class="location-line1">Sindri</h3>
                             <p class="location-line2">Dhanbad, Jharkhand</p>
@@ -65,18 +65,38 @@
             <div class="alert box">
                 <p>RISK MONITOR</p>
                 <h3>Weather Alert</h3>
-                <div class="alert-result">No serve weather risk detected</div>
-                <div class="alert-visual">
-                    <div class="rain">Rain Low</div>
-                    <div class="wind">Wind Low</div>
-                    <div class="heat">Wind Moderate</div>
+                <div class="alert-result">
+                    <span  class="status-icon"><i class="fa-solid fa-check" style="color: rgb(8, 116, 35);"></i></span>
+                    No serve weather risk detected
+                </div>
+                <div class="risk-bars">
+                    <!-- =======rain====== -->
+                    <div class="risk-row">
+                        <span>Rain</span>
+                        <div class="risk-track"><div class="risk-fill rain-bar"></div></div>
+                        <span class="rain-level">Low</span>
+                    </div>
+                    <!-- ========Wind======== -->
+                    <div class="risk-row">
+                        <span>Wind</span>
+                        <div class="risk-track"><div class="risk-fill wind-bar"></div></div>
+                        <span class="wind-level">Low</span>
+                    </div>
+                    <!-- =========Heat========== -->
+                    <div class="risk-row">
+                        <span>Heat</span>
+                        <div class="risk-track"><div class="risk-fill wind-bar"></div></div>
+                        <span class="heat-level">Moderate</span>
+                    </div>
                 </div>
             </div>
-            <!-- Four Horizontal box -->
+        <!-- ========================================== -->
+        <!-- ============Four Horizontal box========== -->
+         <!-- =========================================== -->
         </div>
         <div class="four-box">
             <div class="Box1 Box">
-                <div class="four-icon"><i style="transform: rotate(270deg);" class="fa-solid fa-circle-half-stroke" style="color: rgb(61, 169, 236);"></i></div>
+                <div class="four-icon"><i style="transform: rotate(270deg);" class="fa-solid fa-circle-half-stroke" style="color: rgb(192, 113, 52);"></i></div>
                 <div class="weather-result">
                     <p class="four-text">Humadity:Comfortable</p>
                     <p class="data">68%</p>
@@ -107,7 +127,10 @@
         <!-- AI-Chatbot -->
         <div class="AI-Section">
             <div class="AI-text-part box">
-                <h3>WeatherGPT ChatBot</h3>
+                <h5 id="AI-line1">CONVERSATIONAL WEATHER INTELLIGENCE</h5>
+                <h1 id="AI-line2">Don't read weather data.</h1>
+                <h1 id="AI-line3">Ask what it means.</h1>
+                <p id="AI-line4">WeatherGPT turns forecasts into simple, useful decisions for travel, college, farming and everyday planning.</p>
             </div>
             <div class="AI-chat box">
                 <div class="chat-header">

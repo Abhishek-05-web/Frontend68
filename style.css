@@ -136,6 +136,14 @@
     border: 2px solid #F2F6FB;
     border-radius: 13px;
     background-color: #F2F6FB;
+    cursor: pointer;
+}
+.mode:hover{
+    transform:translate(-1px);
+    box-shadow: 0 6px 18px rgba(37,99,235,0.25);
+}
+.mode:active{
+    transform: scale(0.97);
 }
 /* -------------------Main part content------------ */
 main{
@@ -226,7 +234,7 @@ main{
     align-items: center;
 }
 .location-line1{
-    color: black;
+    color: rgb(226, 207, 207);
     font-weight: bold;
     font-size: 20px;
 }
@@ -273,8 +281,9 @@ main{
     margin-left: 10px;
 }
 .alert p{
-    color: #0B5B98;
+    color: #4F7CB7;
     font-size: 15px;
+    font-weight: bold;
 }
 .alert h3{
     color: black;
@@ -282,27 +291,69 @@ main{
 }
 .alert-result{
     display: flex;
-    height: 80px;
+    height: 100px;
     width: 100%;
     justify-content: center;
     align-items: center;
-    color: #238D65;
+    color: #010704;
     border: 2px solid transparent;
-    background-color: #DAF3E8;
+    background-color: #DAF3E8FF;
     border-radius: 13px;
     font-size:30px;
 }
-.alert-visual{
+.status-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border: 2px solid transparent;
+    border-radius: 13px;
+    background-color: rgb(130, 220, 180);
+    margin-right:20px ;
+}
+/* ======================================================== */
+/* ===========================Risk-bar ===================*/
+/* ======================================================= */
+.risk-bars{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 100px;
+    align-content: center;
+    height: 120px;
     width: 100%;
-    background-color: gray;
-    border-radius: 13px;
-    border:2px solid transparent
+    padding: 5px;
+    background-color:transparent;
+}
+.risk-row{
+    display: grid;
+    grid-template-columns: 55px 1fr 75px;
+    align-items: center;
+    gap:12px;
+    margin: 14px 0;;
+}
+.risk-track{
+    width: 100%;
+    height: 8px;
+    background: #E5E7EB;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.risk-fill{
+    height: 100%;
+    width: 0%;
+    border-radius: 20px;
+    background: #38BDF8;
+    transition: width 0.6s ease;
+}
+/* .rain-bar{
+    background: #65f50b;
+}
+.wind-bar{
+    background: #4b7f1a;
+} */
+.heat-bar{
+    background: #F59E0B;
 }
 /* Four Box */
 .four-box{
@@ -370,18 +421,37 @@ main{
     border-radius: 13px;
     margin-bottom: 50px;
 }
+/* ================================================ */
+/* =====================AI-text-part============== */
+/* ================================================ */
 .AI-text-part{
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    /* justify-content:; */
     height: 440px;
     width: 560px;
     background-color: transparent
 }
-.AI-text-part h3 {
-    color: white;    
-    font-size: 200%;
+#AI-line1{
+    color: #69C8FF;
+    margin-bottom: 50px;
 }
+#AI-line2{
+    color: white;
+    font-size: 400%;
+}
+#AI-line3{
+    color: #7CE7F4;
+    font-size: 400%;
+}
+#AI-line4{
+    color: #FFFFFFA6;
+}
+/* ===================================================== */
+/* =================AI-chat -Area ========================*/
+/* ======================================================== */
 .AI-chat{
     display: flex;
     flex-direction: column;
@@ -486,6 +556,7 @@ main{
     height: 100px;
     width: 550px;
 }
+/* ========================Chat-footer==================== */
 .chat-footer{
     display:flex;
     justify-content: center;
@@ -569,7 +640,9 @@ main{
     box-shadow: 0 0 0 5px rgba(22,119,234,0.18);
     border-radius: 13px;
 }
-/* Footer */
+/* ====================================================== */
+/* ====================Footer============================= */
+/* ======================================================== */
 footer{
     display: flex;
     justify-content: flex-start;
@@ -623,3 +696,54 @@ footer{
     color: #90989f;
     text-decoration:none;
 }
+/* ===========================Dark Mode======================= */
+body{
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
+}
+body.dark-mode{
+    background-color: #07111F;
+    color: #F8FAFC;
+}
+/* Header */
+body.dark-mode.Header{
+    background-color: #0F1D2E;
+    color: #F8FAfC;
+}
+/* Search Box */
+body.dark-mode.search-box{
+    background-color: #162638;
+    color:#2D4055;
+}
+body.dark-mode #search-bar {background-color:transparent;color:white;}
+body.dark-mode #search-bar::placeholder {color:#94A3B8;}
+/* Location text */
+body.dark-mode.location-address {color: #F8FAFC;}
+body.dark-mode .location {color: #F8FAFC;}
+/* Mode Button */
+body.dark-mode.mode { 
+    background-color: #162638;
+    border-color: #2D4055;
+}
+/* Main content */
+body.dark-mode main{
+    background-color: #07111f;
+}
+/* Normal white cards */
+body.dark-mode.box{
+    color: #F8FAFC;
+}
+/* chat section */
+body.dark-mode.chat-box{
+    background-color: #0F1D2E;
+    color: white;
+}
+/* Smooth Transition */
+.Header,
+.search-box,
+.mode,
+main,
+.chat-box{
+    transition: 0.3s ease;
+}
+/* ================================================= */
