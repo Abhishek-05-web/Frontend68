@@ -204,6 +204,10 @@ main{
     background-color:transparent;
     border: 2px solid transparent;
 }
+.main-temp-val{
+    display: flex;
+    flex-direction: row;
+}
 .main-temp{
     color: #FFFFFF;
     font-size: 100px;
@@ -387,6 +391,12 @@ main{
     height: 40px;
     width: 160px;
     background-color: transparent;
+}
+.result-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 .four-text{
     color: grey;

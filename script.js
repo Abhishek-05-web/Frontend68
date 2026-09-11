@@ -129,4 +129,52 @@ function updateRiskBars(rain, wind, temperature){
         temperature<38 ? "Moderate":"High";
 }
 //Abhi testing
-updateRiskBars(65,12,24);
+updateRiskBars(1,80,21);
+// ============================================================
+// ======================Temp-active===========================
+// ============================================================
+
+async function updateCurrentWeathter(latitude, longitude){
+    const response= await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&crrent=temperature_2m,weather_code&timezone=auto`
+    );
+
+    const weatherData= await response.json();
+
+    const temperature=Math.round(
+        weatherData.current.temperature_2m
+    );
+
+    const weatherCode= weatherData.current.weather_code;
+
+    const conditions={
+        0: "Clear sky",
+        1: "Mainly clear",
+        2: "Partly cloudy",
+        3: "Cloudy",
+        45: "Fog",
+        48: "Fog",
+        51: "Light drizzle",
+        53: "Drizzle",
+        55: "Heavy drizzle",
+        61: "Light rain",
+        63: "Rain",
+        65: "Heavy rain",
+        71: "Light snow",
+        73: "Snow",
+        75: "Heavy snow",
+        80: "Rain showers",
+        81: "Rain showers",
+        82: "Heavy showers",
+        95: "Thunderstorm",
+        96: "Thunderstorm",
+        99: "Severe thunderstorm"
+    };
+
+    document.querySelector(".main-temp-val h1").textContent=temperature;
+    document.querySelector(".condition").textContent=conditions[weatherCode]||"Weather";
+}
+
+// ===========================
+// const location=data.results[0];
+updateCurrentWeathter(location.latitude, location.longitude);
