@@ -133,7 +133,7 @@ function updateRiskBars(rain, wind, temperature){
         temperature<38 ? "Moderate":"High";
 }
 //Abhi testing
-// updateRiskBars(1,80,21);
+updateRiskBars(1,80,21);
 // ============================================================
 // ======================Temp-active===========================
 // ============================================================
@@ -188,74 +188,105 @@ async function updateCurrentWeathter(latitude, longitude){
 // ===================================================================
 // ================Weather result live================================
 // ===================================================================
-async function updateFourWeatherBoxes(latitude, longitude){
-    const response=await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m&hourly=precipitation_probability&daily=uv_index_max&timezone=auto&forecast_days=1`
-    );
-    if(!response.ok){
-        throw new Error("Weather details API Error");
-    }
-    const data=await response.json();
-    // ======================HUMIDITY======================
-    const humidity=data.current.relative_humidity_2m;
+async function updateFourWeatherBoxes(latitude, longitude) {
 
-    let humidityLevel=
-        humidity<40 ? "Dry":
-        humidity<=60? "Comfortable":
-        humidity<=75? "Humid":"Uncomfortable";
-    
-    document.querySelector(".Humidity").textContent=humidityLevel;
-    document.querySelector(".Box1 .data").textContent=Math.round(humidity)+"%";
-
-    // =========================WIND=======================
-    const wind=data.current.wind_speed_10m;
-    const degree=data.current.wind_direction_10m;
-
-    const directions=["N","NE","E","SE","S","SW","W","NW"];
-    const direction=directions[Math.round(degree/45)%8];
-
-    let windlevel=
-        wind<10? "Calm":
-        wind<20? "Breeze":
-        wind<40? "Windy":"Strong";
-    
-    document.querySelector(".Wind").textContent=`${direction}${windlevel}`;
-    document.querySelector(".Box2 .data").textContent=Math.round(wind)+"km/h";
-
-    // =============================RAIN CHANCE=========================
-
-    const currentTime=data.current.time.slice(0,13);
-
-    let hourIndex=data.hourly.time.findIndex(
-        time=> time.startsWith(CurrentHour)
+    const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m&hourly=precipitation_probability&daily=uv_index_max&timezone=auto&forecast_days=1`
     );
 
-    if(hourIndex===-1){
-        hourIndex=0;
+    if (!response.ok) {
+        throw new Error("Weather details API error");
     }
-    
-    const rainChance=data.hourly.precipitation_probability[hourIndex]??0;
 
-    let rainLevel=
-        rainChance<30? "Low":
-        rainChance<70 ? "Moderate": "High";
-    
-    document.querySelector(".Rain-Chance").textContent=rainLevel;
-    document.querySelector(".Box3 .data").textContent=Math.round(rainChance)+"%";
+    const data = await response.json();
 
-    // ===========================UV Index================
+    // ===== HUMIDITY =====
+    const humidity = data.current.relative_humidity_2m;
 
-    const uv=data.daily.uv_index_max[0];
-    let uvLevel=
-        uv<3? "Low":
-        uv<6? "Moderate":
-        uv<8? "High":
-        uv<11? "Very High":"Extreme";
-    
-    document.querySelector(".UV-Index").textContent=uvLevel;
-    document.querySelector(".Box4 .data").textContent=Math.round(uv);
-    //RISK BARS LIVE
-    updateRiskBars(rainChance,wind,data.current.temperature_2m);
+    const humidityLevel =
+        humidity < 40 ? "Dry" :
+        humidity <= 60 ? "Comfortable" :
+        humidity <= 75 ? "Humid" :
+        "Uncomfortable";
+
+    document.querySelector(".Humidity").textContent = humidityLevel;
+    document.querySelector(".Box1 .data").textContent =
+        Math.round(humidity) + "%";
+
+
+    // ===== WIND =====
+    const wind = data.current.wind_speed_10m;
+    const degree = data.current.wind_direction_10m;
+
+    const directions = ["N","NE","E","SE","S","SW","W","NW"];
+
+    const direction =
+        directions[Math.round(degree / 45) % 8];
+
+    const windLevel =
+        wind < 10 ? "Calm" :
+        wind < 20 ? "Breeze" :
+        wind < 40 ? "Windy" :
+        "Strong";
+
+    document.querySelector(".Wind").textContent =
+        `${direction} ${windLevel}`;
+
+    document.querySelector(".Box2 .data").textContent =
+        Math.round(wind) + " km/h";
+
+
+    // ===== RAIN CHANCE =====
+    const currentHour =
+        data.current.time.slice(0, 13);
+
+    let hourIndex = data.hourly.time.findIndex(
+        time => time.startsWith(currentHour)
+    );
+
+    if (hourIndex === -1) {
+        hourIndex = 0;
+    }
+
+    const rainChance =
+        data.hourly.precipitation_probability[hourIndex] ?? 0;
+
+    const rainLevel =
+        rainChance < 30 ? "Low" :
+        rainChance < 70 ? "Moderate" :
+        "High";
+
+    document.querySelector(".Rain-Chance").textContent =
+        rainLevel;
+
+    document.querySelector(".Box3 .data").textContent =
+        Math.round(rainChance) + "%";
+
+
+    // ===== UV INDEX =====
+    const uv = data.daily.uv_index_max[0];
+
+    const uvLevel =
+        uv < 3 ? "Low" :
+        uv < 6 ? "Moderate" :
+        uv < 8 ? "High" :
+        uv < 11 ? "Very High" :
+        "Extreme";
+
+    document.querySelector(".UV-Index").textContent =
+        uvLevel;
+
+    document.querySelector(".Box4 .data").textContent =
+        Math.round(uv);
+
+
+    // ===== RISK BARS =====
+    updateRiskBars(
+        rainChance,
+        wind,
+        data.current.temperature_2m
+    );
+
 }
 // updateFourWeatherBoxes(location.latitude,location.longitude);
 // ===========================================================
