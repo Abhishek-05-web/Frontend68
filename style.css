@@ -1156,3 +1156,1259 @@ body.dark-mode
 
     background: #ef4444;
 }
+
+/* ========================================================== */
+/* ========================================================== */
+/* ============ WEATHERGPT COMPLETE RESPONSIVE CSS ========== */
+/* ========== PASTE THIS AT VERY END OF style.css =========== */
+/* ========================================================== */
+/* ========================================================== */
+
+
+/* ========================================================== */
+/* =============== GLOBAL RESPONSIVE FIX ==================== */
+/* ========================================================== */
+
+*{
+    box-sizing: border-box;
+}
+
+html,
+body{
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img{
+    max-width: 100%;
+}
+
+
+/* Main page should grow naturally */
+
+main{
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+}
+
+
+/* ========================================================== */
+/* ==================== HEADER =============================== */
+/* ========================================================== */
+
+.Header{
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    gap: 12px;
+}
+
+
+/* Remove fixed external margins */
+
+.brand-box{
+    margin-left: 0;
+
+    flex: 0 0 40px;
+}
+
+
+.box2{
+    margin-left: 0;
+    margin-right: 0;
+
+    flex: 0 0 100px;
+}
+
+
+.location{
+    flex: 0 1 200px;
+    min-width: 150px;
+}
+
+
+/* Search takes remaining available space */
+
+.search-box{
+    width: auto;
+
+    flex: 1 1 300px;
+
+    min-width: 0;
+
+    margin-left: 0;
+}
+
+
+#search-bar{
+    min-width: 0;
+}
+
+
+/* Dark mode button */
+
+.mode{
+    margin-left: auto;
+
+    flex: 0 0 40px;
+}
+
+
+/* ========================================================== */
+/* ================= WEATHER + ALERT ========================= */
+/* ========================================================== */
+
+.Content{
+    width: min(1450px, calc(100% - 32px));
+
+    max-width: 1450px;
+
+    height: auto;
+
+    gap: 20px;
+
+    align-items: stretch;
+}
+
+
+.weather-card{
+    flex: 1 1 0;
+
+    width: auto;
+
+    min-width: 0;
+
+    height: 400px;
+
+    margin-right: 0;
+
+    overflow: hidden;
+}
+
+
+.weather-card-left{
+    width: 55%;
+
+    max-width: 500px;
+
+    min-width: 0;
+}
+
+
+.weather-visual{
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.visual{
+    width: min(300px, 28vw);
+
+    height: auto;
+
+    aspect-ratio: 1 / 1;
+}
+
+
+#weather-icon{
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* Alert card */
+
+.alert{
+    flex: 0 1 480px;
+
+    width: min(480px, 34%);
+
+    height: auto;
+
+    min-height: 400px;
+
+    margin-left: 0;
+
+    box-sizing: border-box;
+}
+
+
+.alert-result{
+    min-height: 90px;
+
+    height: auto;
+
+    padding: 15px;
+
+    text-align: center;
+}
+
+
+/* ========================================================== */
+/* ==================== FOUR WEATHER BOXES =================== */
+/* ========================================================== */
+
+.four-box{
+    width: min(1450px, calc(100% - 32px));
+
+    max-width: 1450px;
+
+    height: auto;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+}
+
+
+.Box{
+    width: auto;
+
+    flex: 1 1 220px;
+
+    min-width: 0;
+}
+
+
+.weather-result{
+    width: auto;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+/* ========================================================== */
+/* ==================== AI SECTION =========================== */
+/* ========================================================== */
+
+.AI-Section{
+    width: min(1450px, calc(100% - 32px));
+
+    max-width: 1450px;
+
+    height: auto;
+
+    min-height: 500px;
+
+    padding: 30px;
+
+    gap: 30px;
+
+    box-sizing: border-box;
+}
+
+
+.AI-text-part{
+    width: 38%;
+
+    min-width: 0;
+
+    height: auto;
+
+    min-height: 440px;
+}
+
+
+.AI-chat{
+    width: 58%;
+
+    min-width: 0;
+
+    height: 440px;
+}
+
+
+/* ========================================================== */
+/* ================= CHAT RESPONSIVE FIX ===================== */
+/* ========================================================== */
+
+.chat-area{
+    min-width: 0;
+}
+
+
+.chat-box1,
+.chat-box2,
+.chat-box3{
+    width: 100%;
+
+    flex-shrink: 0;
+}
+
+
+/* Dynamic message sizes */
+
+.chat1,
+.chat2,
+.chat3{
+    width: auto;
+
+    max-width: 80%;
+
+    height: auto;
+
+    min-height: 50px;
+
+    padding: 10px 14px;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+}
+
+
+.chat3{
+    min-height: 70px;
+}
+
+
+/* Chat footer */
+
+.chat-footer{
+    padding-left: 10px;
+    padding-right: 10px;
+
+    gap: 10px;
+}
+
+
+.chat-input{
+    width: auto;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+}
+
+
+.chat-input input{
+    min-width: 0;
+
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+/* Voice can contain microphone + stop speaking button */
+
+.voice-btn{
+    width: auto;
+
+    min-width: 40px;
+
+    flex: 0 0 auto;
+
+    gap: 6px;
+
+    margin-left: 0;
+}
+
+
+.voice-btn > button{
+    width: 40px;
+
+    min-width: 40px;
+}
+
+
+.stop-speaking-btn{
+    flex: 0 0 36px;
+}
+
+
+.chat-send{
+    flex: 0 0 40px;
+
+    margin-right: 0;
+}
+
+
+/* ========================================================== */
+/* ========================= FOOTER ========================== */
+/* ========================================================== */
+
+footer{
+    width: 100%;
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+    gap: 15px;
+
+    box-sizing: border-box;
+}
+
+
+.footer-icon{
+    margin-left: 0;
+
+    flex: 0 0 40px;
+}
+
+
+.footer-text{
+    margin-right: auto;
+
+    width: auto;
+
+    align-items: flex-start;
+}
+
+
+.back-to-top{
+    margin-left: auto;
+
+    flex: 0 0 100px;
+}
+
+
+/* ========================================================== */
+/* ========================================================== */
+/* ============== SMALL LAPTOP / TABLET ===================== */
+/* ================= <= 1100px ============================== */
+/* ========================================================== */
+/* ========================================================== */
+
+@media (max-width: 1100px){
+
+    /* ---------------- HEADER ---------------- */
+
+    .Header{
+        height: auto;
+
+        min-height: 80px;
+
+        flex-wrap: wrap;
+
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+
+    .search-box{
+        flex: 1 1 400px;
+    }
+
+
+    .mode{
+        margin-left: auto;
+    }
+
+
+    /* ---------------- WEATHER ---------------- */
+
+    .Content{
+        flex-direction: column;
+
+        height: auto;
+
+        gap: 20px;
+    }
+
+
+    .weather-card{
+        width: 100%;
+
+        height: 400px;
+    }
+
+
+    .alert{
+        width: 100%;
+
+        max-width: none;
+
+        min-height: 350px;
+    }
+
+
+    /* ---------------- FOUR BOX ---------------- */
+
+    .Box{
+        flex: 1 1 calc(50% - 14px);
+    }
+
+
+    /* ---------------- AI SECTION ---------------- */
+
+    .AI-Section{
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 25px;
+    }
+
+
+    .AI-text-part{
+        width: 100%;
+
+        min-height: auto;
+    }
+
+
+    .AI-chat{
+        width: 100%;
+
+        height: 500px;
+    }
+
+
+    #AI-line1{
+        margin-bottom: 20px;
+    }
+
+}
+
+
+/* ========================================================== */
+/* ========================================================== */
+/* ================= MOBILE / TABLET ========================= */
+/* =================== <= 768px ============================= */
+/* ========================================================== */
+/* ========================================================== */
+
+@media (max-width: 768px){
+
+    /* ====================================================== */
+    /* HEADER */
+    /* ====================================================== */
+
+    .Header{
+        height: auto;
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        padding: 12px;
+
+        gap: 10px;
+    }
+
+
+    .brand-box{
+        order: 1;
+
+        margin-left: 0;
+    }
+
+
+    .box2{
+        order: 2;
+
+        width: auto;
+
+        flex: 1;
+    }
+
+
+    .mode{
+        order: 3;
+
+        margin-left: auto;
+    }
+
+
+    /* Location gets own row */
+
+    .location{
+        order: 4;
+
+        width: 100%;
+
+        flex: 1 1 100%;
+
+        min-width: 0;
+    }
+
+
+    /* Search gets full row */
+
+    .search-box{
+        order: 5;
+
+        width: 100%;
+
+        flex: 1 1 100%;
+
+        margin: 0;
+    }
+
+
+    .search-button{
+        width: 85px;
+
+        flex: 0 0 85px;
+    }
+
+
+    /* ====================================================== */
+    /* MAIN WEATHER AREA */
+    /* ====================================================== */
+
+    .Content{
+        width: calc(100% - 20px);
+
+        margin-top: 15px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .weather-card{
+        width: 100%;
+
+        height: auto;
+
+        min-height: 430px;
+
+        padding: 20px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+
+    .weather-card-left{
+        width: 100%;
+
+        max-width: none;
+
+        height: auto;
+
+        min-height: 250px;
+
+        margin-left: 0;
+
+        gap: 15px;
+    }
+
+
+    .main-temp{
+        font-size: 72px;
+    }
+
+
+    .main-temp-val{
+        align-items: flex-start;
+    }
+
+
+    .location-line1{
+        font-size: 18px;
+    }
+
+
+    .location-line2{
+        font-size: 13px;
+    }
+
+
+    /* Weather image below weather information */
+
+    .weather-visual{
+        width: 100%;
+
+        margin-right: 0;
+
+        justify-content: center;
+    }
+
+
+    .visual{
+        width: 180px;
+
+        height: 180px;
+
+        aspect-ratio: auto;
+    }
+
+
+    /* ====================================================== */
+    /* ALERT */
+    /* ====================================================== */
+
+    .alert{
+        width: 100%;
+
+        min-height: 340px;
+
+        padding: 20px;
+    }
+
+
+    .alert h3{
+        font-size: 28px;
+    }
+
+
+    .alert-result{
+        font-size: 20px;
+
+        padding: 15px 10px;
+    }
+
+
+    .risk-row{
+        grid-template-columns: 45px 1fr 65px;
+
+        gap: 8px;
+    }
+
+
+    /* ====================================================== */
+    /* FOUR WEATHER BOXES */
+    /* ====================================================== */
+
+    .four-box{
+        width: calc(100% - 20px);
+
+        gap: 10px;
+    }
+
+
+    .Box{
+        flex: 1 1 calc(50% - 10px);
+
+        min-height: 70px;
+
+        height: auto;
+
+        padding: 8px;
+    }
+
+
+    .four-icon{
+        width: 36px;
+
+        height: 36px;
+
+        flex: 0 0 36px;
+    }
+
+
+    .weather-result{
+        width: auto;
+    }
+
+
+    .four-text{
+        font-size: 13px;
+
+        text-align: center;
+    }
+
+
+    .data{
+        font-size: 21px;
+    }
+
+
+    /* ====================================================== */
+    /* AI SECTION */
+    /* ====================================================== */
+
+    .AI-Section{
+        width: calc(100% - 20px);
+
+        padding: 18px;
+
+        margin-bottom: 25px;
+
+        gap: 20px;
+    }
+
+
+    .AI-text-part{
+        width: 100%;
+
+        height: auto;
+    }
+
+
+    #AI-line1{
+        margin-bottom: 15px;
+
+        font-size: 14px;
+    }
+
+
+    #AI-line2,
+    #AI-line3{
+        font-size: 240%;
+    }
+
+
+    #AI-line4{
+        font-size: 14px;
+    }
+
+
+    .AI-chat{
+        width: 100%;
+
+        height: 500px;
+
+        min-width: 0;
+    }
+
+
+    /* ====================================================== */
+    /* CHAT HEADER */
+    /* ====================================================== */
+
+    .chat-header{
+        height: 65px;
+    }
+
+
+    .chat-header-text{
+        font-size: 17px;
+    }
+
+
+    /* ====================================================== */
+    /* CHAT MESSAGES */
+    /* ====================================================== */
+
+    .chat-box1,
+    .chat-box2,
+    .chat-box3{
+        height: auto;
+
+        min-height: 80px;
+
+        padding-top: 8px;
+
+        padding-bottom: 8px;
+    }
+
+
+    .chat-box3{
+        min-height: 100px;
+    }
+
+
+    .chat1,
+    .chat2,
+    .chat3{
+        width: auto;
+
+        max-width: 82%;
+
+        height: auto;
+
+        min-height: 45px;
+
+        padding: 10px 12px;
+
+        font-size: 14px;
+    }
+
+
+    .chat3{
+        min-height: 60px;
+    }
+
+
+    .miniSymbol{
+        flex: 0 0 30px;
+    }
+
+
+    /* ====================================================== */
+    /* CHAT INPUT */
+    /* ====================================================== */
+
+    .chat-footer{
+        height: 70px;
+
+        padding: 8px;
+
+        gap: 7px;
+    }
+
+
+    .voice-btn{
+        margin-left: 0;
+    }
+
+
+    .chat-input{
+        flex: 1;
+
+        width: auto;
+
+        min-width: 0;
+    }
+
+
+    .chat-send{
+        margin-right: 0;
+    }
+
+
+    /* ====================================================== */
+    /* FOOTER */
+    /* ====================================================== */
+
+    footer{
+        height: auto;
+
+        min-height: 90px;
+
+        padding: 15px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .footer-icon{
+        margin-left: 0;
+    }
+
+
+    .footer-text{
+        margin-right: 0;
+
+        flex: 1;
+    }
+
+
+    .back-to-top{
+        margin-left: auto;
+    }
+
+}
+
+
+/* ========================================================== */
+/* ========================================================== */
+/* ================= SMALL MOBILE ============================ */
+/* ================== <= 480px ============================== */
+/* ========================================================== */
+/* ========================================================== */
+
+@media (max-width: 480px){
+
+    /* Header */
+
+    .Header{
+        padding: 10px;
+    }
+
+
+    .brand-box{
+        width: 38px;
+
+        height: 38px;
+
+        flex-basis: 38px;
+    }
+
+
+    .box2 h3{
+        font-size: 15px;
+    }
+
+
+    .box2 p{
+        font-size: 9px;
+    }
+
+
+    .mode{
+        width: 38px;
+
+        height: 38px;
+
+        flex-basis: 38px;
+
+        font-size: 20px;
+    }
+
+
+    /* Search */
+
+    .search-box{
+        height: 42px;
+    }
+
+
+    .search-button{
+        width: 75px;
+
+        flex-basis: 75px;
+
+        margin-right: 0;
+
+        font-size: 13px;
+    }
+
+
+    #search-bar{
+        font-size: 13px;
+    }
+
+
+    /* Weather */
+
+    .weather-card{
+        padding: 16px;
+
+        min-height: 410px;
+    }
+
+
+    .date{
+        font-size: 14px;
+    }
+
+
+    .condition{
+        font-size: 16px;
+    }
+
+
+    .main-temp{
+        font-size: 62px;
+    }
+
+
+    .visual{
+        width: 150px;
+
+        height: 150px;
+    }
+
+
+    .current-location{
+        width: 100%;
+    }
+
+
+    /* Weather cards become one-per-row */
+
+    .Box{
+        flex: 1 1 100%;
+
+        width: 100%;
+
+        min-height: 68px;
+    }
+
+
+    /* Alert */
+
+    .alert{
+        padding: 16px;
+    }
+
+
+    .alert h3{
+        font-size: 24px;
+    }
+
+
+    .alert-result{
+        font-size: 17px;
+    }
+
+
+    .status-icon{
+        width: 34px;
+
+        height: 34px;
+
+        min-width: 34px;
+
+        margin-right: 10px;
+    }
+
+
+    .risk-row{
+        grid-template-columns: 40px 1fr 58px;
+
+        font-size: 12px;
+    }
+
+
+    /* AI text */
+
+    #AI-line2,
+    #AI-line3{
+        font-size: 190%;
+    }
+
+
+    /* Chat */
+
+    .AI-Section{
+        padding: 12px;
+    }
+
+
+    .AI-chat{
+        height: 470px;
+    }
+
+
+    .chat1,
+    .chat2,
+    .chat3{
+        max-width: 86%;
+
+        font-size: 13px;
+    }
+
+
+    .chat-symbol{
+        width: 35px;
+
+        height: 35px;
+
+        margin: 7px;
+    }
+
+
+    .clear-chat-btn{
+        width: 35px;
+
+        height: 35px;
+    }
+
+
+    .chat-footer{
+        padding-left: 5px;
+
+        padding-right: 5px;
+
+        gap: 5px;
+    }
+
+
+    .voice-btn > button,
+    .chat-send{
+        width: 38px;
+
+        height: 38px;
+    }
+
+
+    .voice-btn > button{
+        min-width: 38px;
+    }
+
+
+    .chat-input{
+        height: 38px;
+    }
+
+
+    .chat-input input{
+        font-size: 12px;
+    }
+
+
+    /* Footer */
+
+    footer{
+        justify-content: center;
+
+        text-align: center;
+    }
+
+
+    .footer-text{
+        align-items: flex-start;
+    }
+
+
+    .back-to-top{
+        flex-basis: auto;
+
+        width: auto;
+    }
+
+}
+
+
+/* ========================================================== */
+/* ================ EXTRA SMALL MOBILE ====================== */
+/* =================== <= 360px ============================= */
+/* ========================================================== */
+
+@media (max-width: 360px){
+
+    .Content,
+    .four-box,
+    .AI-Section{
+        width: calc(100% - 12px);
+    }
+
+
+    .weather-card{
+        padding: 12px;
+    }
+
+
+    .main-temp{
+        font-size: 56px;
+    }
+
+
+    .visual{
+        width: 135px;
+
+        height: 135px;
+    }
+
+
+    .AI-Section{
+        padding: 8px;
+    }
+
+
+    #AI-line2,
+    #AI-line3{
+        font-size: 170%;
+    }
+
+
+    .chat1,
+    .chat2,
+    .chat3{
+        max-width: 88%;
+
+        font-size: 12px;
+    }
+
+
+    .voice-btn > button,
+    .chat-send{
+        width: 35px;
+
+        height: 35px;
+    }
+
+
+    .chat-input{
+        height: 35px;
+    }
+
+}
