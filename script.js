@@ -336,31 +336,93 @@ function updateWeatherAlert(rain,wind,temperature,weatherCode){
             ${message}`;
     }
 }
-//==========================================================
-// ============WeatherGPT ChatBot===========================
-// =========================================================
-const chatArea=document.querySelector(".chat-area");
-const chatInput=document.querySelector(".chat-input input");
-const chatSendButton=document.querySelector(".chat-send button");
 
-let chatBusy=false;
+// ==========================================================
+// ================= WeatherGPT CHATBOT ======================
+// ==========================================================
 
-//=================================User message===============
-function addUserMessage(message){
-    const userBox=document.createElement("div");
-    userBox.className="chat-box2";
-    userBox.innerHTML=
-        `<div class="chat2 text-chat">
-            <p style="margin:10px;"></p>
-        </div>`;
-    userBox.querySelector("p").textContent=message;
+const chatArea = document.querySelector(".chat-area");
+const chatInput = document.querySelector(".chat-input input");
+const chatSendButton = document.querySelector(".chat-send button");
+
+let chatBusy = false;
+
+const CHAT_STORAGE_KEY = "weathergpt-chat-history";
+
+// ----------------------------------------------------------
+// Scroll chat automatically
+// ----------------------------------------------------------
+
+function scrollChat() {
+    requestAnimationFrame(() => {
+        chatArea.scrollTop = chatArea.scrollHeight;
+    });
+}
+
+
+// ----------------------------------------------------------
+// Save chat history
+// ----------------------------------------------------------
+
+function saveChatMessage(role, message) {
+
+    let history = JSON.parse(
+        localStorage.getItem(CHAT_STORAGE_KEY) || "[]"
+    );
+
+    history.push({
+        role: role,
+        message: message
+    });
+
+    // Only keep last 30 messages
+    history = history.slice(-30);
+
+    localStorage.setItem(
+        CHAT_STORAGE_KEY,
+        JSON.stringify(history)
+    );
+}
+
+
+// ----------------------------------------------------------
+// Add USER message
+// ----------------------------------------------------------
+
+function addUserMessage(message, save = true) {
+
+    const userBox = document.createElement("div");
+
+    userBox.className = "chat-box2";
+
+    const messageBox = document.createElement("div");
+    messageBox.className = "chat2 text-chat";
+
+    const paragraph = document.createElement("p");
+    paragraph.style.margin = "10px";
+    paragraph.textContent = message;
+
+    messageBox.appendChild(paragraph);
+    userBox.appendChild(messageBox);
+
     chatArea.appendChild(userBox);
+
+    if (save) {
+        saveChatMessage("user", message);
+    }
+
     scrollChat();
 }
-//==============================AI Message=========================
-function addAIMessage(message) {
+
+
+// ----------------------------------------------------------
+// Add AI message
+// ----------------------------------------------------------
+
+function addAIMessage(message, save = false) {
 
     const aiBox = document.createElement("div");
+
     aiBox.className = "chat-box3";
 
     const symbol = document.createElement("div");
@@ -375,9 +437,11 @@ function addAIMessage(message) {
     const textBox = document.createElement("div");
     textBox.className = "chat3 text-chat";
 
+
     const paragraph = document.createElement("p");
     paragraph.style.margin = "10px";
     paragraph.textContent = message;
+
 
     textBox.appendChild(paragraph);
 
@@ -386,73 +450,258 @@ function addAIMessage(message) {
 
     chatArea.appendChild(aiBox);
 
+
+    if (save) {
+        saveChatMessage("assistant", message);
+    }
+
+
     scrollChat();
 
-    // actual text element return kar rahe hain
+    // We return paragraph so Thinking... can be replaced later
     return paragraph;
 }
-// ==========================AUTO Scroll==============================
-function scrollChat(){
-    chatArea.scrollTop=chatArea.scrollHeight;
+
+
+// ----------------------------------------------------------
+// Loading animation
+// ----------------------------------------------------------
+
+function showThinking() {
+
+    const thinking = addAIMessage("");
+
+    thinking.innerHTML = `
+        <span class="thinking-text">
+            Thinking
+            <span class="thinking-dots">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </span>
+    `;
+
+    return thinking;
 }
-// ==========================SEND Message=============================
-async function sendChatMessage(){
-    const question=chatInput.value.trim();
-    if(!question||chatBusy) return;
-    chatBusy=true;
-    //user message show
+
+
+// ----------------------------------------------------------
+// Disable / enable send button
+// ----------------------------------------------------------
+
+function setChatLoading(isLoading) {
+
+    chatBusy = isLoading;
+
+    chatSendButton.disabled = isLoading;
+
+    if (isLoading) {
+
+        chatSendButton.classList.add("sending");
+
+    } else {
+
+        chatSendButton.classList.remove("sending");
+
+    }
+}
+
+
+// ----------------------------------------------------------
+// Send message
+// ----------------------------------------------------------
+
+async function sendChatMessage() {
+
+    const question = chatInput.value.trim();
+
+    if (!question || chatBusy) {
+        return;
+    }
+
+
+    // show user message
     addUserMessage(question);
-    //Input clear
-    chatInput.value="";
-    //Temporary AI message
-    const loadingMessage=addAIMessage("Thinking...");
 
-    // loadingMessage.textContent =
-    // data.answer || "Weather response nahi mila.";
 
-    try{
-        const response =await fetch(
+    // clear input
+    chatInput.value = "";
+
+
+    // lock send button
+    setChatLoading(true);
+
+
+    // show Thinking...
+    const loadingMessage = showThinking();
+
+
+    try {
+
+        const response = await fetch(
             "http://127.0.0.1:8000/chat",
             {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                body:JSON.stringify({
-                    question:question,
-                    latitude:currentLatitude,
-                    longitude:currentLongitude
+
+                body: JSON.stringify({
+
+                    question: question,
+
+                    latitude: currentLatitude,
+
+                    longitude: currentLongitude
+
                 })
             }
         );
 
-        if(!response.ok){
-            throw new Error("Backend error: "+response.status);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Backend error: " + response.status
+            );
         }
-        const data=await response.json();
-        //Thinking text to actual answer se replace
-        loadingMessage.textContent=data.answer||"Weather response nahi mila.";
+
+
+        const data = await response.json();
+
+
+        const answer =
+            data.answer ||
+            "Weather response nahi mila.";
+
+
+        // Replace Thinking with real answer
+        loadingMessage.textContent = answer;
+
+
+        // Save AI answer
+        saveChatMessage(
+            "assistant",
+            answer
+        );
+
+
         scrollChat();
+
     }
-    catch(error){
-        // loadingMessage.textContent =
-        //     "WeatherGPT backend se connect nahi ho pa raha.";
-        console.error("CHAT ERROR:",error);
-        loadingMessage.textContent="Error: "+error.message;
+
+    catch (error) {
+
+        console.error(
+            "CHAT ERROR:",
+            error
+        );
+
+
+        loadingMessage.textContent =
+            "WeatherGPT backend se connect nahi ho pa raha. Please try again.";
+
+
     }
-    finally{
-        chatBusy=false;
+
+    finally {
+
+        setChatLoading(false);
+
         chatInput.focus();
+
     }
 }
-//============================SEND BUTTON===========================
-chatSendButton.addEventListener("click",sendChatMessage);
-//==========================ENTER KEY===============================
-chatInput.addEventListener("keydown",
-    function(event){
-        if(event.key==="Enter"){
+
+
+// ----------------------------------------------------------
+// SEND BUTTON
+// ----------------------------------------------------------
+
+chatSendButton.addEventListener(
+    "click",
+    sendChatMessage
+);
+
+
+// ----------------------------------------------------------
+// ENTER KEY
+// ----------------------------------------------------------
+
+chatInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
             event.preventDefault();
+
             sendChatMessage();
+
         }
     }
 );
+
+
+// ----------------------------------------------------------
+// Restore old chat after refresh
+// ----------------------------------------------------------
+
+function loadChatHistory() {
+
+    const history = JSON.parse(
+        localStorage.getItem(CHAT_STORAGE_KEY) || "[]"
+    );
+
+
+    history.forEach(chat => {
+
+        if (chat.role === "user") {
+
+            addUserMessage(
+                chat.message,
+                false
+            );
+
+        }
+
+        else if (chat.role === "assistant") {
+
+            addAIMessage(
+                chat.message,
+                false
+            );
+
+        }
+
+    });
+
+
+    scrollChat();
+}
+
+
+loadChatHistory();
+// ============================================================
+// =====================CLEAR CHAT HISTORY=====================
+// ============================================================
+const clearChatButton=document.querySelector(".clear-chat-btn");
+clearChatButton.addEventListener("click",()=>{
+    const confirmClear=confirm("Do you want to clear WeatherGPT chat history?");
+
+    if(!confirmClear) return;
+    //remove saved history
+    localStorage.removeItem(CHAT_STORAGE_KEY);
+    //Remove user+AI message from screen
+    chatArea
+        .querySelectorAll(".chat-box2, .chat-box3")
+        .forEach(message=> message.remove());
+    //Scroll back to top
+    chatArea.scrollTop=0;
+    chatInput.focus();
+});

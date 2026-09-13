@@ -524,6 +524,38 @@ main{
     border-radius: 13px;
     margin:10px;
 }
+/* ========================================================= */
+/* ======================Clear chat history================== */
+/* ========================================================== */
+.clear-chat-btn{
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 13px;
+
+    background-color: transparent;
+    color: #6B7280;
+
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 15px;
+
+    transition: 0.2s ease;
+}
+.clear-chat-btn:hover{
+    background-color:#FEE2E2;
+    color: #DC2626;
+    transform: scale(1.05);
+}
+/* =========================================================== */
+/* ====================CHAT Improvement ======================*/
+/* =========================================================== */
+
 .chat-area{
     display: flex;
     flex-direction: column;
@@ -532,6 +564,47 @@ main{
     overflow-y: auto;
     scroll-behavior: smooth;
 }
+/* Smooth messages */
+.chat-box2,
+.chat-box3{
+    animation: chatMessageIn 0.25s ease;
+}
+
+@keyframes chatMessageIn{
+    from{
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Thinking animation  */
+.thinking-dots span{
+    animation: thinkingDot 1.2s infinite;
+}
+.thinking-dots span:nth-child(2){
+    animation-delay:0.2s;
+}
+.thinking-dots span:nth-child(3){
+    animation-delay: 0.4s;
+}
+
+@keyframes thinkingDot{
+    0%, 60%, 100%{opacity: 0.25;}
+    30%{opacity: 1;}
+}
+/* Send button while AI is working */
+.chat-send button:disabled{
+    cursor: not-allowed;
+    opacity:0.6;
+}
+.chat-send button.sending{
+    transform: scale(0.95);
+}
+/* ==================================================================== */
 /* three -boxes */
 .chat-box1{
     display: flex;
@@ -573,6 +646,8 @@ main{
     border-bottom-right-radius:2px ;
     background-color: #8b5cf6;
     color: white;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .chat-box3{
     display: flex;
@@ -590,6 +665,8 @@ main{
     height: 100px;
     width: 550px;
     border-top-left-radius: 2px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 /* ========================Chat-footer==================== */
 .chat-footer{
