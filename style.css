@@ -808,54 +808,237 @@ footer{
     color: #90989f;
     text-decoration:none;
 }
-/* ===========================Dark Mode======================= */
-body{
-    transition: background-color 0.3s ease,
-                color 0.3s ease;
-}
+/* ===================================================== */
+/* ================== FULL DARK MODE =================== */
+/* ===================================================== */
+
 body.dark-mode{
-    background-color: #07111F;
-    color: #F8FAFC;
+    background: #08111f;
+    color: #f8fafc;
 }
-/* Header */
-body.dark-mode.Header{
-    background-color: #0F1D2E;
-    color: #F8FAfC;
+/* ================= HEADER ================= */
+
+body.dark-mode .Header{
+    background: #0f172a;
+    color: #f8fafc;
 }
-/* Search Box */
-body.dark-mode.search-box{
-    background-color: #162638;
-    color:#2D4055;
+
+body.dark-mode .Header *{
+    color: #f8fafc;
 }
-body.dark-mode #search-bar {background-color:transparent;color:white;}
-body.dark-mode #search-bar::placeholder {color:#94A3B8;}
-/* Location text */
-body.dark-mode.location-address {color: #F8FAFC;}
-body.dark-mode .location {color: #F8FAFC;}
-/* Mode Button */
-body.dark-mode.mode { 
-    background-color: #162638;
-    border-color: #2D4055;
+
+/* Search input */
+
+body.dark-mode #search-bar{
+    background: #1e293b;
+    color: #ffffff;
+    border-color: #334155;
 }
-/* Main content */
-body.dark-mode main{
-    background-color: #07111f;
+
+body.dark-mode #search-bar::placeholder{
+    color: #94a3b8;
 }
-/* Normal white cards */
-body.dark-mode.box{
-    color: #F8FAFC;
+
+/* ================= MAIN CONTENT ================= */
+body.dark-mode .Content{
+    background: #08111f;
 }
-/* chat section */
-body.dark-mode.chat-box{
-    background-color: #0F1D2E;
+/* ================= WEATHER CARD ================= */
+
+body.dark-mode .weather-card{
+    color: #ffffff;
+}
+
+
+/* ================= WEATHER ALERT ================= */
+
+body.dark-mode .alert{
+    background: #111827;
+    color: #f8fafc;
+}
+
+body.dark-mode .alert h3,
+body.dark-mode .alert p{
+    color: #f8fafc;
+}
+
+
+/* Alert result safe box */
+
+body.dark-mode .alert-result{
+    background: #16352d;
+    color: #dcfce7;
+}
+
+
+/* ================= RISK BARS ================= */
+
+body.dark-mode .risk-row{
+    color: #e5e7eb;
+}
+
+body.dark-mode .risk-track{
+    background: #374151;
+}
+
+body.dark-mode .rain-level,
+body.dark-mode .wind-level,
+body.dark-mode .heat-level{
+    color: #e5e7eb;
+}
+
+
+/* ================= FOUR WEATHER BOXES ================= */
+
+body.dark-mode .four-box{
+    background: transparent;
+}
+
+body.dark-mode .Box{
+    background: #111827;
+    color: #f8fafc;
+}
+
+body.dark-mode .Box1,
+body.dark-mode .Box2,
+body.dark-mode .Box3,
+body.dark-mode .Box4{
+    background: #111827;
+    color: #f8fafc;
+}
+
+body.dark-mode .Box1 *,
+body.dark-mode .Box2 *,
+body.dark-mode .Box3 *,
+body.dark-mode .Box4 *{
+    color: #f8fafc;
+}
+
+
+/* ================= AI SECTION ================= */
+
+body.dark-mode .AI-Section{
+    background:
+        linear-gradient(
+            135deg,
+            #071426,
+            #0b2b50
+        );
+
+    color: #ffffff;
+}
+
+
+/* Main chatbot */
+
+body.dark-mode .AI-chat{
+    background: #111827;
+    color: #f8fafc;
+}
+
+
+/* Chat area */
+
+body.dark-mode .chat-area{
+    background: #111827;
+}
+
+
+/* AI messages */
+
+body.dark-mode .chat-box1,
+body.dark-mode .chat-box3{
+    color: #f8fafc;
+}
+
+body.dark-mode .chat1,
+body.dark-mode .chat3{
+    background: #1f2937;
+    color: #f8fafc;
+}
+
+
+/* User message - keep purple */
+
+body.dark-mode .chat-box2{
     color: white;
 }
-/* Smooth Transition */
-.Header,
-.search-box,
-.mode,
-main,
-.chat-box{
-    transition: 0.3s ease;
+
+body.dark-mode .chat2{
+    background:
+        linear-gradient(
+            135deg,
+            #6d28d9,
+            #4f46e5
+        );
+
+    color: white;
+}
+
+
+/* Chat footer */
+
+body.dark-mode .chat-footer{
+    background: #0f172a;
+    border-top: 1px solid #334155;
+}
+
+
+/* Chat input */
+
+body.dark-mode .chat-input input{
+    background: #1e293b;
+    color: #ffffff;
+}
+
+body.dark-mode .chat-input input::placeholder{
+    color: #94a3b8;
+}
+
+
+/* Send button */
+
+body.dark-mode .chat-send button{
+    background: #4f46e5;
+    color: white;
+}
+
+
+/* Clear chat trash */
+
+body.dark-mode .clear-chat-btn{
+    color: #cbd5e1;
+}
+
+body.dark-mode .clear-chat-btn:hover{
+    background: #3f1d25;
+    color: #f87171;
+}
+
+
+/* ================= GENERAL TEXT ================= */
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode span{
+    color: inherit;
+}
+
+
+/* ================= SCROLLBAR ================= */
+
+body.dark-mode ::-webkit-scrollbar-track{
+    background: #111827;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb{
+    background: #475569;
+    border-radius: 20px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover{
+    background: #64748b;
 }
 /* ================================================= */
