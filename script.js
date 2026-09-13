@@ -1,3 +1,5 @@
+let currentLatitude=23.3441;
+let currentLongitude=85.3096;
 //Live-date added 
 function updateDate(){
     const now=new Date();
@@ -39,7 +41,8 @@ searchButton.addEventListener("click",async(event) => {
             return;
         }
         const location=data.results[0];
-
+        currentLatitude=location.latitude;
+        currentLongitude=location.longitude;
         const city=location.name|| "";
         const state=location.admin1||"";
         const district= 
@@ -191,7 +194,7 @@ async function updateCurrentWeathter(latitude, longitude){
 async function updateFourWeatherBoxes(latitude, longitude) {
 
     const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m&hourly=precipitation_probability&daily=uv_index_max&timezone=auto&forecast_days=1`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code&hourly=precipitation_probability&daily=uv_index_max&timezone=auto&forecast_days=1`
     );
 
     if (!response.ok) {
@@ -279,14 +282,177 @@ async function updateFourWeatherBoxes(latitude, longitude) {
     document.querySelector(".Box4 .data").textContent =
         Math.round(uv);
 
-
+    const weatherCode=data.current.weather_code;
     // ===== RISK BARS =====
     updateRiskBars(
         rainChance,
         wind,
         data.current.temperature_2m
     );
-
+    //Weathert risk
+    updateWeatherAlert(rainChance,wind,data.current.temperature_2m,weatherCode);
 }
 // updateFourWeatherBoxes(location.latitude,location.longitude);
 // ===========================================================
+// ===================Own Predicted Alert bar=================
+// ===========================================================
+function updateWeatherAlert(rain,wind,temperature,weatherCode){
+    const alertBox=document.querySelector(".alert-result");
+
+    let message="No severe weather risk detected";
+    let danger=false;
+
+    if(weatherCode>=95){
+        message="Thunderstorm risk detected";
+        danger=true;
+    }
+    else if(wind>=40){
+        message="Strong wind risk detected";
+        danger=true;
+    }
+    else if(temperature>=40){
+        message="High heat risk detected";
+        danger=true;
+    }
+    else if(rain>=80){
+        message="High rain possibility detected";
+        danger=true;
+    }
+    if (danger){
+        alertBox.classList.add("danger");
+        alertBox.classList.remove("safe");
+        alertBox.innerHTML=
+            `<span class="status-icon">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
+            ${message}`;
+    }else{
+        alertBox.classList.add("safe");
+        alertBox.classList.remove("danger");
+        alertBox.innerHTML=
+            `<span class="status-icon">
+                <i class="fa-solid fa-check"></i>
+            </span>
+            ${message}`;
+    }
+}
+//==========================================================
+// ============WeatherGPT ChatBot===========================
+// =========================================================
+const chatArea=document.querySelector(".chat-area");
+const chatInput=document.querySelector(".chat-input input");
+const chatSendButton=document.querySelector(".chat-send button");
+
+let chatBusy=false;
+
+//=================================User message===============
+function addUserMessage(message){
+    const userBox=document.createElement("div");
+    userBox.className="chat-box2";
+    userBox.innerHTML=
+        `<div class="chat2 text-chat">
+            <p style="margin:10px;"></p>
+        </div>`;
+    userBox.querySelector("p").textContent=message;
+    chatArea.appendChild(userBox);
+    scrollChat();
+}
+//==============================AI Message=========================
+function addAIMessage(message) {
+
+    const aiBox = document.createElement("div");
+    aiBox.className = "chat-box3";
+
+    const symbol = document.createElement("div");
+    symbol.className = "chat-symbol miniSymbol";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "W";
+
+    symbol.appendChild(heading);
+
+
+    const textBox = document.createElement("div");
+    textBox.className = "chat3 text-chat";
+
+    const paragraph = document.createElement("p");
+    paragraph.style.margin = "10px";
+    paragraph.textContent = message;
+
+    textBox.appendChild(paragraph);
+
+    aiBox.appendChild(symbol);
+    aiBox.appendChild(textBox);
+
+    chatArea.appendChild(aiBox);
+
+    scrollChat();
+
+    // actual text element return kar rahe hain
+    return paragraph;
+}
+// ==========================AUTO Scroll==============================
+function scrollChat(){
+    chatArea.scrollTop=chatArea.scrollHeight;
+}
+// ==========================SEND Message=============================
+async function sendChatMessage(){
+    const question=chatInput.value.trim();
+    if(!question||chatBusy) return;
+    chatBusy=true;
+    //user message show
+    addUserMessage(question);
+    //Input clear
+    chatInput.value="";
+    //Temporary AI message
+    const loadingMessage=addAIMessage("Thinking...");
+
+    // loadingMessage.textContent =
+    // data.answer || "Weather response nahi mila.";
+
+    try{
+        const response =await fetch(
+            "http://127.0.0.1:8000/chat",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    question:question,
+                    latitude:currentLatitude,
+                    longitude:currentLongitude
+                })
+            }
+        );
+
+        if(!response.ok){
+            throw new Error("Backend error: "+response.status);
+        }
+        const data=await response.json();
+        //Thinking text to actual answer se replace
+        loadingMessage.textContent=data.answer||"Weather response nahi mila.";
+        scrollChat();
+    }
+    catch(error){
+        // loadingMessage.textContent =
+        //     "WeatherGPT backend se connect nahi ho pa raha.";
+        console.error("CHAT ERROR:",error);
+        loadingMessage.textContent="Error: "+error.message;
+    }
+    finally{
+        chatBusy=false;
+        chatInput.focus();
+    }
+}
+//============================SEND BUTTON===========================
+chatSendButton.addEventListener("click",sendChatMessage);
+//==========================ENTER KEY===============================
+chatInput.addEventListener("keydown",
+    function(event){
+        if(event.key==="Enter"){
+            event.preventDefault();
+            sendChatMessage();
+        }
+    }
+);

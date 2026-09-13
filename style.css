@@ -305,6 +305,24 @@ main{
     border-radius: 13px;
     font-size:30px;
 }
+/* ======================when-danger-risk-detected====================  */
+.alert-result.safe{
+    background: #DFF5EA;
+    color: #176B47;
+}
+.alert-result.safe .status-icon{
+    background: #A7E3C8;
+    color: #168452;
+}
+.alert-result.danger{
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+.alert-result.danger .status-icon{
+    background: #FECACA;
+    color: #DC2626;
+}
+/*====================================================================  */
 .status-icon{
     display: flex;
     justify-content: center;
@@ -504,13 +522,15 @@ main{
     border: 2px solid transparent;
     background-color: #5b5cff;
     border-radius: 13px;
-    margin:10px
+    margin:10px;
 }
 .chat-area{
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 }
 /* three -boxes */
 .chat-box1{
@@ -536,6 +556,7 @@ main{
 .chat1{
     height: 50px;
     width: 400px;
+    border-top-left-radius: 2px;
 }
 .chat-box2{
     display: flex;
@@ -547,8 +568,11 @@ main{
     background-color: white;
 }
 .chat2{
-    height: 60px;
+    height: 70px;
     width: 300px;
+    border-bottom-right-radius:2px ;
+    background-color: #8b5cf6;
+    color: white;
 }
 .chat-box3{
     display: flex;
@@ -565,6 +589,7 @@ main{
     align-items: center;
     height: 100px;
     width: 550px;
+    border-top-left-radius: 2px;
 }
 /* ========================Chat-footer==================== */
 .chat-footer{
