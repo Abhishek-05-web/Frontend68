@@ -1042,3 +1042,117 @@ body.dark-mode ::-webkit-scrollbar-thumb:hover{
     background: #64748b;
 }
 /* ================================================= */
+/* ===================================================== */
+/* ============= WEATHERGPT VOICE CHAT ================= */
+/* ===================================================== */
+
+.voice-btn{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Normal microphone */
+
+.voice-btn button{
+    border: none;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Listening */
+
+.voice-btn button.listening{
+    color: white;
+    background: #ef4444;
+
+    transform: scale(1.1);
+
+    box-shadow:
+        0 0 0 5px rgba(239,68,68,0.15),
+        0 0 18px rgba(239,68,68,0.5);
+
+    animation:
+        weatherMicPulse 1.15s infinite;
+}
+
+
+@keyframes weatherMicPulse{
+
+    0%{
+        transform: scale(1);
+    }
+
+    50%{
+        transform: scale(1.12);
+    }
+
+    100%{
+        transform: scale(1);
+    }
+}
+
+
+/* ================= STOP SPEAKING ================= */
+
+.stop-speaking-btn{
+
+    width: 36px;
+    height: 36px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border: none;
+
+    color: #ffffff;
+
+    background: #ef4444;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.stop-speaking-btn:hover{
+
+    background: #dc2626;
+
+    transform: scale(1.08);
+}
+
+
+/* ================= DARK MODE ================= */
+
+body.dark-mode .voice-btn button{
+    color: #cbd5e1;
+}
+
+
+body.dark-mode
+.voice-btn button.listening{
+
+    color: white;
+
+    background: #ef4444;
+}
+
+
+body.dark-mode
+.stop-speaking-btn{
+
+    color: white;
+
+    background: #ef4444;
+}

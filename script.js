@@ -641,7 +641,7 @@ async function sendChatMessage() {
         const answer =
             data.answer ||
             "Weather response nahi mila.";
-
+        
 
         // Replace Thinking with real answer
         loadingMessage.textContent = answer;
@@ -782,23 +782,78 @@ clearChatButton.addEventListener("click",()=>{
 // =======================================================================
 
 // ============================================================
-// ================= WEATHERGPT VOICE CHAT =====================
+// ================ WEATHERGPT VOICE CHAT V2 ==================
 // ============================================================
 
-// Existing HTML elements
-const weatherVoiceButton = document.querySelector(".voice-btn button");
-const weatherVoiceInput = document.querySelector(".chat-input input");
+const weatherVoiceButton =
+    document.querySelector(".voice-btn button");
 
-// Browser Speech Recognition support
+const weatherVoiceInput =
+    document.querySelector(".chat-input input");
+
+const voiceButtonContainer =
+    document.querySelector(".voice-btn");
+
+
+// ------------------------------------------------------------
+// Browser Speech Recognition
+// ------------------------------------------------------------
+
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
 let recognition = null;
+
 let isListening = false;
 
-// Ye batayega question voice se enter hua tha ya nahi
+// Existing sendChatMessage() isko use karega
 let voiceMessageActive = false;
+
+
+// ============================================================
+// =============== STOP SPEAKING BUTTON ========================
+// ============================================================
+
+// Button JS se automatically create hoga.
+// HTML me kuch add karne ki zarurat nahi.
+
+const stopSpeakingButton =
+    document.createElement("button");
+
+stopSpeakingButton.type = "button";
+
+stopSpeakingButton.className =
+    "stop-speaking-btn";
+
+stopSpeakingButton.title =
+    "Stop WeatherGPT voice";
+
+stopSpeakingButton.innerHTML =
+    `<i class="fa-solid fa-volume-xmark"></i>`;
+
+stopSpeakingButton.style.display = "none";
+
+voiceButtonContainer.appendChild(
+    stopSpeakingButton
+);
+
+
+// Stop AI speech
+stopSpeakingButton.addEventListener(
+    "click",
+    () => {
+
+        window.speechSynthesis.cancel();
+
+        stopSpeakingButton.style.display =
+            "none";
+
+        document.body.classList.remove(
+            "weather-gpt-speaking"
+        );
+    }
+);
 
 
 // ============================================================
@@ -807,118 +862,135 @@ let voiceMessageActive = false;
 
 if (SpeechRecognition) {
 
-    recognition = new SpeechRecognition();
+    recognition =
+        new SpeechRecognition();
 
-    // User ek baar bolega
     recognition.continuous = false;
 
-    // Bolte waqt live text dikhega
     recognition.interimResults = true;
 
-    // Hinglish / Indian English ke liye
+    // Hinglish / Indian English
     recognition.lang = "en-IN";
 
 
-    // ========================================================
-    // LISTENING START
-    // ========================================================
+    // --------------------------------------------------------
+    // Listening starts
+    // --------------------------------------------------------
 
     recognition.onstart = () => {
 
         isListening = true;
 
-        weatherVoiceButton.classList.add("listening");
+        weatherVoiceButton.classList.add(
+            "listening"
+        );
 
-        weatherVoiceInput.placeholder = "Listening...";
+        weatherVoiceInput.placeholder =
+            "Listening...";
 
-        console.log("🎙️ WeatherGPT listening...");
+        weatherVoiceButton.title =
+            "Stop listening";
+
+        console.log(
+            "🎙️ WeatherGPT is listening..."
+        );
     };
 
 
-    // ========================================================
-    // SPEECH -> TEXT
-    // ========================================================
+    // --------------------------------------------------------
+    // Speech -> text
+    // --------------------------------------------------------
 
     recognition.onresult = (event) => {
 
         let transcript = "";
 
-        // Complete recognized sentence build karo
+
         for (
             let i = event.resultIndex;
             i < event.results.length;
             i++
         ) {
 
-            transcript += event.results[i][0].transcript;
+            transcript +=
+                event.results[i][0].transcript;
         }
 
 
-        // Input box me live text
-        weatherVoiceInput.value = transcript;
+        // Live recognized text
+        weatherVoiceInput.value =
+            transcript;
 
 
-        // Last result check
         const lastResult =
-            event.results[event.results.length - 1];
+            event.results[
+                event.results.length - 1
+            ];
 
 
-        // User bolna finish kar chuka hai
+        // Speech finished
         if (lastResult.isFinal) {
 
             voiceMessageActive = true;
 
-            // Sirf listening stop hogi
             recognition.stop();
 
             console.log(
-                "✅ Voice converted to text:",
+                "✅ Voice text:",
                 transcript
             );
 
 
             // IMPORTANT:
-            // Yahan sendChatMessage() NAHI chalega.
+            // AUTO SEND NAHI HOGA.
             //
-            // User ab:
-            // 1. Text edit kar sakta hai
-            // 2. Enter press kar sakta hai
-            // 3. Send button click kar sakta hai
+            // User Enter ya Send button
+            // press karega.
         }
     };
 
 
-    // ========================================================
-    // LISTENING END
-    // ========================================================
+    // --------------------------------------------------------
+    // Listening ends
+    // --------------------------------------------------------
 
     recognition.onend = () => {
 
         isListening = false;
 
-        weatherVoiceButton.classList.remove("listening");
+        weatherVoiceButton.classList.remove(
+            "listening"
+        );
 
         weatherVoiceInput.placeholder =
             "Ask WeatherGPT...";
 
-        console.log("🎙️ Listening stopped");
+        weatherVoiceButton.title =
+            "Ask with voice";
+
+        console.log(
+            "🎙️ Listening stopped"
+        );
     };
 
 
-    // ========================================================
-    // SPEECH ERROR
-    // ========================================================
+    // --------------------------------------------------------
+    // Recognition errors
+    // --------------------------------------------------------
 
     recognition.onerror = (event) => {
 
         console.error(
-            "Speech recognition error:",
+            "Voice recognition error:",
             event.error
         );
 
+
         isListening = false;
 
-        weatherVoiceButton.classList.remove("listening");
+        weatherVoiceButton.classList.remove(
+            "listening"
+        );
 
         weatherVoiceInput.placeholder =
             "Ask WeatherGPT...";
@@ -930,34 +1002,45 @@ if (SpeechRecognition) {
                 "Microphone permission allow karo."
             );
 
-        } else if (event.error === "no-speech") {
+        }
 
-            console.log(
-                "Koi speech detect nahi hui."
-            );
-
-        } else if (event.error === "audio-capture") {
+        else if (
+            event.error === "audio-capture"
+        ) {
 
             alert(
                 "Microphone detect nahi ho raha."
+            );
+
+        }
+
+        else if (
+            event.error === "no-speech"
+        ) {
+
+            console.log(
+                "No speech detected."
             );
         }
     };
 
 
-    // ========================================================
-    // MIC BUTTON CLICK
-    // ========================================================
+    // --------------------------------------------------------
+    // Mic click
+    // --------------------------------------------------------
 
     weatherVoiceButton.addEventListener(
         "click",
         () => {
 
-            // AI agar bol raha ho to pehle stop
+            // WeatherGPT bol raha hai to stop karo
             window.speechSynthesis.cancel();
 
+            stopSpeakingButton.style.display =
+                "none";
 
-            // Already listening hai
+
+            // Already listening
             if (isListening) {
 
                 recognition.stop();
@@ -966,7 +1049,7 @@ if (SpeechRecognition) {
             }
 
 
-            // Nayi voice query
+            // New voice query
             weatherVoiceInput.value = "";
 
             voiceMessageActive = false;
@@ -976,25 +1059,28 @@ if (SpeechRecognition) {
 
                 recognition.start();
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
                 console.log(
-                    "Recognition already started",
+                    "Recognition start error:",
                     error
                 );
             }
         }
     );
 
-} else {
+}
 
-    // Browser support nahi karta
+else {
+
     weatherVoiceButton.addEventListener(
         "click",
         () => {
 
             alert(
-                "Voice recognition is browser me supported nahi hai. Chrome ya Edge use karo."
+                "Voice recognition supported nahi hai. Chrome ya Edge use karo."
             );
         }
     );
@@ -1003,43 +1089,75 @@ if (SpeechRecognition) {
 
 
 // ============================================================
-// ================= TEXT TO SPEECH ============================
+// ================= VOICE SELECTION ===========================
 // ============================================================
 
-function speakWeatherGPT(text) {
+function chooseWeatherGPTVoice(text) {
 
-    if (!text) return;
-
-
-    // Purana speech stop
-    window.speechSynthesis.cancel();
-
-
-    const speech =
-        new SpeechSynthesisUtterance(text);
-
-
-    // Hinglish ke liye
-    speech.lang = "hi-IN";
-
-    speech.rate = 1;
-
-    speech.pitch = 1;
-
-    speech.volume = 1;
-
-
-    // Available voices
     const voices =
         window.speechSynthesis.getVoices();
 
 
-    // Hindi voice first preference
-    const selectedVoice =
+    if (!voices.length) {
+
+        return null;
+    }
+
+
+    // Check Hindi Unicode
+    const containsHindi =
+        /[\u0900-\u097F]/.test(text);
+
+
+    // --------------------------------------------------------
+    // Pure Hindi answer
+    // --------------------------------------------------------
+
+    if (containsHindi) {
+
+        return (
+
+            voices.find(
+                voice =>
+                    voice.lang === "hi-IN" &&
+                    /Google|Microsoft/i.test(
+                        voice.name
+                    )
+            )
+
+            ||
+
+            voices.find(
+                voice =>
+                    voice.lang === "hi-IN"
+            )
+
+            ||
+
+            voices.find(
+                voice =>
+                    voice.lang.startsWith("hi")
+            )
+
+            ||
+
+            null
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // Hinglish / English
+    // --------------------------------------------------------
+
+    return (
 
         voices.find(
             voice =>
-                voice.lang === "hi-IN"
+                voice.lang === "en-IN" &&
+                /Google|Microsoft/i.test(
+                    voice.name
+                )
         )
 
         ||
@@ -1047,15 +1165,132 @@ function speakWeatherGPT(text) {
         voices.find(
             voice =>
                 voice.lang === "en-IN"
-        );
+        )
+
+        ||
+
+        voices.find(
+            voice =>
+                voice.lang.startsWith("en")
+        )
+
+        ||
+
+        null
+    );
+}
+
+
+
+// ============================================================
+// ================= WEATHERGPT SPEAK ==========================
+// ============================================================
+
+function speakWeatherGPT(text) {
+
+    if (!text) return;
+
+
+    // Previous answer stop
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+    // Hindi letters present -> Hindi voice
+    if (/[\u0900-\u097F]/.test(text)) {
+
+        speech.lang = "hi-IN";
+
+    } else {
+
+        // Hinglish generally en-IN me clearer lagega
+        speech.lang = "en-IN";
+    }
+
+
+    // Natural speaking speed
+    speech.rate = 0.95;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+
+    const selectedVoice =
+        chooseWeatherGPTVoice(text);
 
 
     if (selectedVoice) {
 
-        speech.voice = selectedVoice;
+        speech.voice =
+            selectedVoice;
     }
 
 
-    window.speechSynthesis.speak(speech);
+    // --------------------------------------------------------
+    // Speech starts
+    // --------------------------------------------------------
+
+    speech.onstart = () => {
+
+        stopSpeakingButton.style.display =
+            "inline-flex";
+
+        document.body.classList.add(
+            "weather-gpt-speaking"
+        );
+
+        console.log(
+            "🔊 WeatherGPT speaking..."
+        );
+    };
+
+
+    // --------------------------------------------------------
+    // Speech ends
+    // --------------------------------------------------------
+
+    speech.onend = () => {
+
+        stopSpeakingButton.style.display =
+            "none";
+
+        document.body.classList.remove(
+            "weather-gpt-speaking"
+        );
+
+        console.log(
+            "🔇 WeatherGPT finished."
+        );
+    };
+
+
+    speech.onerror = () => {
+
+        stopSpeakingButton.style.display =
+            "none";
+
+        document.body.classList.remove(
+            "weather-gpt-speaking"
+        );
+    };
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
 }
+
+
+
+// Browser voices kabhi thoda late load hote hain
+window.speechSynthesis.onvoiceschanged =
+    () => {
+
+        window.speechSynthesis.getVoices();
+
+    };
 
