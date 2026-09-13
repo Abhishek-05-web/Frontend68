@@ -95,20 +95,61 @@ if(localStorage.getItem("theme") ==="dark"){
     modeIcon.className="fa-solid fa-sun";
     modeIcon.style.color="white";
 }
-// =================================Night image change====================
-const weatherIcon=document.getElementById("weather-icon");
+// ===================== Weather Icon Auto Change =====================
+const weatherIcon = document.getElementById("weather-icon");
+let currentWeatherCode = 2; // default fallback
 
-function updateWeatherIcon(){
-    const hour=new Date().getHours();
+function getWeatherIconPath(weatherCode) {
+    const hour = new Date().getHours();
+    const isDay = hour >= 6 && hour < 18;
 
-    if(hour>=6&&hour<18){
-        weatherIcon.src="Icon/partly-cloudy-day.png";
-    }else{
-        weatherIcon.src="Icon/partly-cloudy-night.jpeg";
-    }
+    const iconMap = {
+        0:  { day: "icon/clear-sky-day.png",         night: "icon/clear-sky-night.png" },
+        1:  { day: "icon/mainly-clear-day.png",      night: "icon/mainly-clear-night.png" },
+        2:  { day: "icon/partly-cloudy-day.png",     night: "icon/partly-cloudy-night.jpeg" },
+        3:  { day: "icon/cloudy-day.png",            night: "icon/cloudy-night.png" },
+        45: { day: "icon/fog-day.png",               night: "icon/fog-night.png" },
+        48: { day: "icon/fog-day.png",               night: "icon/fog-night.png" },
+
+        51: { day: "icon/light-drizzle-day.png",     night: "icon/light-drizzle-night.png" },
+        53: { day: "icon/drizzle-day.png",           night: "icon/drizzle-night.png" },
+        55: { day: "icon/heavy-drizzle-day.png",     night: "icon/heavy-drizzle-night.png" },
+
+        61: { day: "icon/light-rain-day.png",        night: "icon/light-rain-night.png" },
+        63: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },
+
+        // Abhi inka exact icon nahi hai, to closest fallback use ho raha hai
+        65: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // heavy rain
+        71: { day: "icon/cloudy-day.png",            night: "icon/cloudy-night.png" }, // light snow
+        73: { day: "icon/cloudy-day.png",            night: "icon/cloudy-night.png" }, // snow
+        75: { day: "icon/cloudy-day.png",            night: "icon/cloudy-night.png" }, // heavy snow
+
+        80: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // rain showers
+        81: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // rain showers
+        82: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // heavy showers
+
+        95: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // thunderstorm
+        96: { day: "icon/rain-day.png",              night: "icon/rain-night.png" },   // thunderstorm
+        99: { day: "icon/rain-day.png",              night: "icon/rain-night.png" }    // severe thunderstorm
+    };
+
+    const selectedIcon = iconMap[weatherCode] || iconMap[2];
+    return isDay ? selectedIcon.day : selectedIcon.night;
 }
-updateWeatherIcon();
-setInterval(updateWeatherIcon,60000);
+
+function updateWeatherIcon(weatherCode = currentWeatherCode) {
+    currentWeatherCode = weatherCode;
+
+    if (!weatherIcon) return;
+
+    weatherIcon.src = getWeatherIconPath(weatherCode);
+    weatherIcon.alt = "Weather condition icon";
+}
+
+// Har 1 min me check karega ki day/night change hua ya nahi
+setInterval(() => {
+    updateWeatherIcon(currentWeatherCode);
+}, 60000);
 // =======================================
 // ============Risk-bar===================
 // =======================================
@@ -183,6 +224,8 @@ async function updateCurrentWeathter(latitude, longitude){
 
     document.querySelector(".main-temp-val h1").textContent=temperature;
     document.querySelector(".condition").textContent=conditions[weatherCode]||"Weather";
+
+    updateWeatherIcon(weatherCode);
 }
 
 // ===========================
